@@ -1,0 +1,69 @@
+March 1:
+Q1: peak element ,problem of the day
+class Solution
+{
+    public:
+ int solve(int arr[], int low, int high, int n)
+{
+    // calculating mid
+    int mid = (low+high)/2;
+    
+    // if mid is last or first index with first element
+    // greater than next.
+    // Also, check if mid element is greater than mid - 1 and mid+1
+    if ((mid == 0 || arr[mid-1] <= arr[mid]) &&
+            (mid == n-1 || arr[mid+1] <= arr[mid]))
+        return mid;
+        
+    // If mid is other than 0, then check if mid element is less than prev.
+    // If so, then recurse for lower half
+    else if (mid > 0 && arr[mid-1] > arr[mid])
+        return solve(arr, low, (mid -1), n);
+        
+    // else recurse for the upper half
+    else return solve(arr, (mid + 1), high, n);
+}
+
+int peakElement(int arr[], int n)
+{
+    return solve(arr, 0, n-1, n);
+}
+};
+
+
+Q2:min no of elements to be removed from front to make string palindrome
+
+class Solution {
+public:
+    int minChar(string str){
+        int n = str.size();
+        
+        string Str = str+"$";
+         reverse(str.begin(),str.end());
+        Str = Str+str;
+        vector<int>lps(2*n+1);
+        lps[0] = 0;
+        int i =1;
+       int m  = Str.size();
+        int len = 0;
+        while(i<m){
+            if(Str[i] == Str[len]){
+                len++;
+                lps[i] = len;
+                i++;
+            }
+            else{
+                if(len!=0){
+                    len = lps[len-1];
+                }
+                else{
+                    
+                    lps[i]=0;
+                    i++;
+                }
+            }
+        }
+        // int a = lps[n-1];
+        return n-lps[m-1];
+    }
+};
