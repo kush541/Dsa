@@ -95,3 +95,118 @@ class Solution{
           return ans;
         }
 };
+
+Q3:travelling salesman problem?
+
+
+
+class Solution {
+public:
+int  tsp(int mask,int pos, int VISITED_ALL, vector<vector<int>>&cost, vector<vector<int>>&dp){
+
+	int n = cost.size();
+	if(mask==VISITED_ALL){
+		return cost[pos][0];
+	}
+	if(dp[mask][pos]!=-1){
+	   return dp[mask][pos];
+	}
+
+	//Now from current node, we will try to go to every other node and take the min ans
+	int ans = INT_MAX;
+
+	//Visit all the unvisited cities and take the best route
+	for(int city=0;city<n;city++){
+
+		if((mask&(1<<city))==0){
+
+			int newAns = cost[pos][city] + tsp( mask|(1<<city), city, VISITED_ALL, cost, dp);
+			ans = min(ans, newAns);
+		}
+
+	}
+	
+	return dp[mask][pos] = ans;
+} 
+int total_cost(vector<vector<int>>cost){
+	int n = cost.size();
+	vector<vector<int>>dp((1<<n)+5, vector<int>(n, -1));
+	int VISITED_ALL = (1<<n) - 1;
+	return tsp(1, 0, VISITED_ALL, cost, dp);
+}
+   
+};
+
+
+Q4:vertex cover
+//User function Template for C++
+
+class Solution{
+    public:
+    
+        int check(vector<vector<int>>&adjmatrix,int mid,int n,int m){
+            int set = (1 << mid) - 1;
+            int limit = (1 << n);
+           bool vis[n+1][n+1];
+            while (set < limit) 
+         {
+     memset(vis,0,sizeof(vis));
+           int p =0;
+        //   j =bit and v = node
+           for (int j = 1, v = 1; j < limit; j = j << 1, v++) {
+    			if (set & j) {
+    				for (int k = 1; k <= n; k++) {
+    					if (adjmatrix[v][k] && !vis[v][k]) {
+    						vis[v][k] = 1;
+    						vis[k][v] = 1;
+    						p++;
+    					}
+    				}
+    			}
+    		}
+    
+    // 		if p get equal to no of total edges
+    		if (p == m) {
+    			return true;
+    		}
+ 
+    // Gospers hack:
+           	int c = set & -set;
+    		int r = set + c;
+    		set = (((r ^ set) >> 2) / c) | r;
+          }
+          return false;
+        }
+    
+        int binarySearch(vector<vector<int>>&adjmatrix,int n,int m){
+            int i = 1;
+            int j =n;
+            while(i<j){
+                int mid = i+j>>1;
+                if(check(adjmatrix,mid,n,m)==false){
+                    i = mid+1;
+                }
+                else{
+                    j = mid;
+                }
+            }
+            return i;
+        }
+    
+        int vertexCover(int n, vector<pair<int, int>> &edges) {
+             vector<vector<int>>adjmatrix(n+1,vector<int>(n+1,0));
+             int m = edges.size();
+             for(int i =0; i < m;i++){
+                 int u = edges[i].first;
+                 int v = edges[i].second;
+                 adjmatrix[u][v] = 1;
+                 adjmatrix[v][u] = 1;
+             }
+             return binarySearch(adjmatrix,n,m);
+         }
+};
+
+
+Q5:potd(leetcode)
+
+that had a easy algo
