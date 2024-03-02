@@ -14,3 +14,84 @@ class Solution{
         return -1;
     }
 };
+
+Q2: minimum cash flow
+
+//User function Template for C++
+
+
+class Solution{
+    public:
+        int maxdedoindex(vector<int>&cost,int n){
+            int maxi = -1000000002;
+            int maxI=0;
+            for(int i =0;i<n;i++){
+                if(cost[i]>maxi  ){
+                    maxI = i;
+                    maxi = cost[i];
+                }
+            }
+            return maxI;
+        }
+        int mindedoindex(vector<int>&cost,int n){
+            int mini = 1000000002;
+            int minI=0;
+            for(int i =0;i<n;i++){
+                if(cost[i]<mini  ){
+                    minI = i;
+                    mini = cost[i];
+                }
+            }
+            return minI; 
+        }
+        bool check(vector<int>&cost,int n){
+            for(int i =0; i  < n;i++){
+                if(cost[i]!=0){
+                    return false;
+                }
+            }
+            return true;
+        }
+        vector<vector<int>> minCashFlow(vector<vector<int>> &transaction, int n)
+        {
+            vector<int>cost(n,0);
+            for(int i =0; i <n;i++){
+               for(int j = 0; j < n;j++){
+                  cost[i] += (transaction[j][i] - transaction[i][j]);
+               }
+            } 
+            // int noz = 0;
+            // for(int i =0; i < n;i++){
+            //     if(cost[i] == 0){
+            //         noz++;
+            //     }
+            // }
+          vector<vector<int>>ans(n,vector<int>(n,0));
+          while(check(cost,n)==false){
+              int mini = mindedoindex(cost,n);
+              int maxi =   maxdedoindex(cost,n);
+              if(cost[maxi]>abs(cost[mini])){
+                  ans[mini][maxi] = abs(cost[mini]);
+                  cost[maxi] = cost[maxi]-abs(cost[mini]);
+                 
+                  cost[mini] =0;
+                  
+              }
+              else if(cost[maxi]<abs(cost[mini])){
+                  ans[mini][maxi] = cost[maxi];
+                  cost[mini] = cost[mini]+cost[maxi];
+                  cost[maxi] = 0;
+                  
+              }
+              else{
+                   ans[mini][maxi] = abs(cost[mini]);
+                  cost[maxi] = 0;
+                  cost[mini] = 0;
+                  
+                //   noz = noz+1;
+              }
+            //   noz++;
+          }
+          return ans;
+        }
+};
