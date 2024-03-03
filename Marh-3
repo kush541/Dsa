@@ -1,0 +1,32 @@
+Q1 :potd leetcode,remove nth node from end (linkedList)
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int len = 0;
+        ListNode* random  = head;
+        while(random!=NULL){
+        len++;
+        random = random->next;
+        }
+        random = head;
+         n = len-n-1;
+         if(n == -1){
+             head = head->next;
+             delete random;
+             return  head;
+         }
+        ListNode* cn = NULL;
+        while(n!=0){
+           
+          random = random->next;
+            n--;
+        }
+       
+       
+       cn =  random->next;
+       random->next = random->next->next; 
+        delete(cn);
+        return head; 
+    }
+};
