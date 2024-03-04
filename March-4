@@ -1,0 +1,51 @@
+potd leetcode 
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int power) {
+     int i =0;
+     int n = tokens.size();
+     int j =n-1;
+     sort(tokens.begin(),tokens.end());
+     int ps=0;
+     int mps=0;
+     while(i<=j){
+        if(tokens[i]<=power){
+            ps++;
+            power = power - tokens[i];
+            mps = max(mps,ps);
+            i++;
+        }
+        
+        else if( ps>0 ){
+            ps--;
+            power = power+tokens[j];
+            j--;
+        }
+        else{
+            break;
+        }
+     }
+     return mps;
+     }
+};
+
+2. potd gfg
+
+//User function Template for C++
+
+/*Function to swap array elements
+* arr : array input
+* n : number of elements in array
+*/
+class Solution{
+  public:
+    void swapElements(int arr[], int n){
+        
+      int i =0;
+      while(i+2<n){
+          swap(arr[i],arr[i+2]);
+          i++;
+      }
+        
+    }
+};
