@@ -50,3 +50,84 @@ public:
 
     }
 };
+
+
+Q2:potd  gfg
+
+class Solution{
+    public:
+        
+    // A[]: input array
+    // N: size of array
+    // Function to find the maximum index difference.
+    int maxIndexDiff(int a[], int n) 
+    { 
+        
+      vector<int>maxr(n);
+      vector<int>minl(n);
+        // for max right
+        maxr[n-1]=a[n-1];
+        for(int i =n-2;i>=0;i--){
+            if(a[i]>maxr[i+1]){
+                maxr[i] = a[i];
+            }
+            else{
+                maxr[i] = maxr[i+1];
+            }
+        }
+        minl[0]=a[0];
+        for(int i =1; i < n;i++){
+            if(a[i]<minl[i-1]){
+                minl[i] = a[i];
+            }
+            else{
+                minl[i] = minl[i-1];
+            }
+        }
+        
+        int i =0;
+        int j =0;
+        int ans = 0;
+        // j = maxr i = minl
+        while(i<n and j<n){
+            if(maxr[j]>=minl[i]){
+                ans = max(ans,j-i);
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+        return ans;
+    }
+};
+
+Q3:potd leetcode
+class Solution {
+public:
+    int minimumLength(string s) {
+        int i =0;
+        int j = s.size()-1;
+        
+      
+        while(i<j){
+         
+         if(s[i] == s[j]){
+             char a  = s[i];
+             i++;
+             while(s[i]==a and i<=j ){
+              i++;
+             }
+             while(s[j]==a and i<=j){
+                 j--;
+             }
+            
+           
+         }
+         else{
+             break;
+         }
+        }
+        return j-i+1;
+    }
+};
