@@ -1,0 +1,65 @@
+Q1:
+//User function template for C++
+class Solution{
+public:	
+    bool check(unordered_map<char,int>&m,int f){
+        int cf;
+        for(auto x:m){
+           if(x.second>0){
+               if(f==-1){
+                  cf = x.second;
+                  f=0;
+               }
+               if(f==0){
+                if(x.second!=cf){
+                return false;
+            }
+               }
+           }
+        }
+        return true;
+    }
+	bool sameFreq(string s)
+	{
+	   unordered_map<char,int>m;
+	   int n = s.size();
+	   for(int i =0; i <n;i++){
+	       m[s[i]]++;
+	   }
+	   if(check(m,-1)){
+	       return true;
+	   }
+	   
+	   for(auto x:m){
+	       
+	       m[x.first]--;
+	       if(check(m,-1)){
+	           return true;
+	       }
+	       m[x.first]++;
+	   }
+	   return false;
+	}
+};
+
+Q2:class Solution {
+public:
+    int maxFrequencyElements(vector<int>& nums) {
+        unordered_map<int,int>m;
+        int n= nums.size();
+        for(int i =0; i <n;i++){
+            m[nums[i]]++;
+        }
+        int mf=0;
+        for(auto x:m){
+            mf = max(mf,x.second);
+        }
+        int ans = 0;
+        for(auto x:m){
+            if(x.second==mf){
+                ans = ans+x.second;
+            }
+        }
+        return ans;
+    }
+};
