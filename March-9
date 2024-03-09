@@ -1,0 +1,186 @@
+
+Q1: potd lc
+class Solution {
+public:
+    int getCommon(vector<int>& nums1, vector<int>& nums2) {
+ 
+        int i =0;
+        int j =0;
+        while(i<nums1.size() and j<nums2.size()){
+            if(nums1[i]==nums2[j]){
+                return nums1[i];
+            }
+            else if(nums1[i]>nums2[j]){
+                j++;
+            }
+            else{
+               i++;
+            }
+        }
+        return -1;
+    }
+};
+
+Q2:potd gfg
+
+class Solution{
+  public:
+    char nthCharacter(string s, int r, int n) {
+       if(r==0){
+           return s[n];
+       }
+       char c = nthCharacter(s,r-1,n/2);
+       if(n%2 == 1){
+           if(c == '0'){
+               return '1';
+           }
+           else{
+               return '0';
+           }
+       }
+       else{
+           if(c=='0'){
+               return '0';
+           }
+           else{
+               return '1';
+           }
+       }
+    }
+};
+
+
+Q3:anagrams
+class Solution{
+  public:
+    vector<vector<string> > Anagrams(vector<string>& string_list) {
+      int n = string_list.size();
+        vector<vector<string>>ans;
+        unordered_map<string,vector<string>>m;
+        
+        
+        for(int i =0; i <n;i++){
+            string ts = string_list[i];
+            sort(ts.begin(),ts.end());
+            m[ts].push_back(string_list[i]);
+        }
+        
+        for(auto x:m){
+            ans.push_back(x.second);
+        }
+        
+        return ans;
+    }
+};
+
+Q4:valid ip  adress
+class Solution{
+  public:
+  
+  bool check(string& m){
+      int n = m.length();
+      if(n<=0 || n>3){
+          return false;
+      }
+      if(m[0] == '0' and n>1 ){
+          return false;
+      }
+      int t = stoi(m);
+      if(t<0 || t>255){
+          return false;
+      }
+      return true;
+  }
+  
+    vector<string> genIp(string &s) {
+       vector<string>ans;
+       int n = s.size();
+       for(int i =0; i <n;i++){
+           for(int j = i+1;j < n;j++){
+               for(int k = j+1;k<n;k++){
+                   string a = s.substr(0,i+1);
+                   string b = s.substr(i+1,j-i);
+                   string c = s.substr(j+1,k-j);
+                   string d = s.substr(k+1,n-k-1);
+                   if(check(a)and check(b) and check(c) and check(d)){
+                       string put = a+"."+b+"."+c+"."+d;
+                       ans.push_back(put);
+                   }
+               }
+           }
+       }
+       return ans;
+    }
+
+};
+
+Q5:word wrap
+lass Solution {
+public:
+  int solveWordWrap(vector<int>nums, int k)
+    {
+        int n = nums.size();
+        int i, j;
+        int currlen;
+        int cost;
+        
+        //Initializing dp and ans vectors.
+        vector<int>dp(n, 0);
+        vector<int>ans(n, 0);
+        dp[n - 1] = 0;
+        ans[n - 1] = n - 1;
+        
+        //Calculating dp values from right to left.
+        for (i = n - 2; i >= 0; i--)
+        {
+            currlen = -1;
+            dp[i] = INT_MAX;
+            
+            //Calculating cost for current line wrappings.
+            for (j = i; j < n; j++)
+            {
+                currlen += (nums[j] + 1);
+                
+                //If current line length exceeds the limit, break.
+                if (currlen > k)
+                    break;
+                
+                //Calculating cost for current wrapping.
+                if (j == n - 1)
+                    cost = 0;
+                else
+                    cost = (k - currlen) * (k - currlen) + dp[j + 1];
+                
+                //Updating dp and ans vectors.
+                if (cost < dp[i]) {
+                    dp[i] = cost;
+                    ans[i] = j;
+                }
+            }
+        }
+        int res = 0;
+        i = 0;
+        
+        //Calculating final result by summing up the costs.
+        while (i < n) {
+            int pos = 0;
+            
+            //Calculating positions for current line wrappings.
+            for (int j = i; j < ans[i] + 1; j++) {
+                pos += nums[j];
+            }
+            
+            //Calculating cost of extra spaces.
+            int x = ans[i]-i;
+            if(ans[i]+1 != nums.size())
+                res += (k - x - pos)*(k - x - pos);
+            
+            //Updating i to next line wrapping.
+            i = ans[i] + 1;
+        }
+        
+        //Returning the final result.
+        return res;
+    
+    } 
+};
