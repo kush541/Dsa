@@ -1,0 +1,71 @@
+Q1:potd gfg
+//User function template for C++
+class Solution{
+public:	
+	
+	int countPairs(vector<vector<int>> &mat1, vector<vector<int>> &mat2, int n, int x)
+	{
+	   int i =0;
+	   int j = n*n-1;
+	   int  ans = 0;
+	   while(i < n*n and j>=0){
+	       int fi = i/n;
+	       int fj = i%n;
+	       //cout<<fi<<fj;
+	       int si = j/n;
+	       int sj = j%n;
+	       //cout<<si<<sj;
+	       int sum = mat1[fi][fj] + mat2[si][sj];
+	       //cout<<sum<<" ";
+	       if(sum == x){
+	           ans++;
+	           i++;
+	           j--;
+	       }
+	       else if(sum<x){
+	           i++;
+	       }
+	       else{
+	           j--;
+	       }
+	   }
+	   return ans;
+	}
+};
+
+Q2:potd leetcode
+
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        vector<char>m;
+        string ans="";
+        unordered_map<char,int>t;
+        for(int i =0; i < s.size();i++){
+            t[s[i]]++;
+        }
+        for(int i =0; i < order.size();i++){
+            m.push_back(order[i]);
+        }
+      for(int i =0; i < m.size();i++){
+          
+          if(s.find(m[i])!=string::npos){
+             while(t[m[i]]!=0){
+              ans = ans + m[i];
+              t[m[i]]--;
+          }
+          }
+      }
+        for(int i =0; i < s.size();i++){
+            if(ans.find(s[i])==string::npos){
+               
+               while(t[s[i]]!=0){
+                 ans = ans + s[i];
+                 t[s[i]]--;
+            }
+            }
+        }
+return ans;
+
+    }
+};
