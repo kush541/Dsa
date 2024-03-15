@@ -1,0 +1,69 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+         int n = nums.size();
+        
+        std::vector<int> prefix(n, 1);
+        std::vector<int> suffix(n, 1);
+        
+        for (int i = 1; i < n; ++i) {
+            prefix[i] = prefix[i - 1] * nums[i - 1];
+        }
+        
+        for (int i = n - 2; i >= 0; --i) {
+            suffix[i] = suffix[i + 1] * nums[i + 1];
+        }
+        
+        std::vector<int> answer(n);
+        for (int i = 0; i < n; ++i) {
+            answer[i] = prefix[i] * suffix[i];
+        }
+        
+        return answer;
+    }
+};
+
+
+/*
+struct Node
+{
+	int data;
+	struct Node *next;
+	
+	Node(int x){
+	    data =x;
+	    next = NULL;
+	}
+};
+*/
+
+class Solution
+{
+    public:
+    // your task is to complete this function
+    void sort(Node **head)
+    {
+         // Code here
+             if (head == nullptr || *head == nullptr) {
+            return;
+        }
+        
+        // Store the data of nodes in a vector
+        vector<int> data_vec;
+        Node* curr = *head;
+        while (curr != nullptr) {
+            data_vec.push_back(curr->data);
+            curr = curr->next;
+        }
+        
+        // Sort the vector
+        std::sort(data_vec.begin(), data_vec.end());
+        
+        // Update the linked list with sorted data
+        curr = *head;
+        for (int i = 0; i < data_vec.size(); ++i) {
+            curr->data = data_vec[i];
+            curr = curr->next;
+        }
+    }
+};
