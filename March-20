@@ -1,0 +1,175 @@
+Q1:potd leetcode 
+class Solution {
+public:
+    ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+           ListNode* ptr = list1;
+        for (int i = 0; i < a - 1; ++i)
+            ptr = ptr->next;
+        
+        ListNode* qtr = ptr->next;
+        for (int i = 0; i < b - a + 1; ++i)
+            qtr = qtr->next;
+        
+        ptr->next = list2;
+        while (list2->next)
+            list2 = list2->next;
+        list2->next = qtr;
+        
+        return list1;
+    }
+};
+
+Q2:potd gfg
+//User function Template for C++
+
+/*
+structure of the node of the binary tree is as
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int x)
+    {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+class Solution
+{
+public:
+ void sumOfLongRootToLeafPathUtil(Node *root, int sum, int len, int &maxLen, int &maxSum)
+    {
+        if (!root)
+        {
+            if (maxLen < len)
+            {
+                maxLen = len;
+                maxSum = sum;
+            }
+            else if (maxLen == len && maxSum < sum)
+                maxSum = sum;
+            return;
+        }
+        sumOfLongRootToLeafPathUtil(root->left, sum + root->data, len + 1, maxLen, maxSum);
+        sumOfLongRootToLeafPathUtil(root->right, sum + root->data, len + 1, maxLen, maxSum);
+    }
+
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        if (!root)
+            return 0;
+        
+        int maxSum = INT_MIN, maxLen = 0;
+        sumOfLongRootToLeafPathUtil(root, 0, 0, maxLen, maxSum);
+        return maxSum; 
+    }
+    
+};
+
+
+Q3:wildcard string matching 
+// User function template for C++
+class Solution{
+    public:
+     bool recursion(string wild, int it1, int len1, string pattern, int it2, int len2)
+    {
+        if(it1 == len1 && it2 == len2)
+        return true;
+        
+       
+         if(it1>=len1) return 0;
+        if(wild[it1] == '*'){
+            while(it1+1 < len1 && wild[it1+1] == '*')
+            it1++;
+        }
+        if(it1==len1-1 && wild[len1-1]=='*') return 1;
+         if(it2>=len2) {
+             
+             return 0;
+         }
+        if(wild[it1] == '*' && it1+1 != len1 && it2 == len2)
+        return false;
+        
+        if(wild[it1] == '?' || wild[it1] == pattern[it2])
+        return recursion(wild, it1+1, len1, pattern, it2+1, len2);
+        
+        if(wild[it1] == '*')
+        return (recursion(wild, it1, len1, pattern, it2+1, len2) || recursion(wild, it1+1, len1, pattern, it2, len2));
+                
+        return false;
+    }
+       bool match(string wild, string pattern)
+    {
+        int len1 = wild.size();
+        int len2 = pattern.size();
+        bool flag = recursion(wild, 0, len1, pattern, 0, len2);
+        return flag;
+    }
+   
+};
+
+Q4:find smallest window in string ontaining all eleents of other strings
+//User function Template for C++
+
+/*
+structure of the node of the binary tree is as
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int x)
+    {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+class Solution
+{
+public:
+ void sumOfLongRootToLeafPathUtil(Node *root, int sum, int len, int &maxLen, int &maxSum)
+    {
+        if (!root)
+        {
+            if (maxLen < len)
+            {
+                maxLen = len;
+                maxSum = sum;
+            }
+            else if (maxLen == len && maxSum < sum)
+                maxSum = sum;
+            return;
+        }
+        sumOfLongRootToLeafPathUtil(root->left, sum + root->data, len + 1, maxLen, maxSum);
+        sumOfLongRootToLeafPathUtil(root->right, sum + root->data, len + 1, maxLen, maxSum);
+    }
+
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        if (!root)
+            return 0;
+        
+        int maxSum = INT_MIN, maxLen = 0;
+        sumOfLongRootToLeafPathUtil(root, 0, 0, maxLen, maxSum);
+        return maxSum; 
+    }
+    
+};
+
+Q5:remove conecutive characcters 
+class Solution{
+    public:
+    string removeConsecutiveCharacter(string S)
+    {
+        // code here.
+        S.erase(unique(S.begin(), S.end()), S.end());
+        return S;
+    }
+};
