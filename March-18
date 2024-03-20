@@ -1,0 +1,65 @@
+Q1:potd leetcode
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+          std::sort(points.begin(), points.end(), [](const auto& a, const auto& b) {
+            return a[0] < b[0];
+        });
+
+        int arrows = 1;
+        int end = points[0][1];
+
+        for (size_t i = 1; i < points.size(); ++i) {
+            if (points[i][0] > end) {
+                arrows++;
+                end = points[i][1];
+            } else {
+                end = std::min(end, points[i][1]);
+            }
+        }
+
+        return arrows;
+    }
+};
+
+Q2:potd gfg
+
+/* A binary tree Node
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+ */
+
+
+class Solution
+{
+    public:
+    //Function to return the level order traversal of a tree.
+    vector<int> levelOrder(Node* root)
+    {
+      queue<Node*>q;
+      vector<int>ans;
+      q.push(root);
+      while(!q.empty()){
+          Node* a = q.front();
+          ans.push_back(a->data);
+          q.pop();
+          if(a->left){
+              q.push(a->left);
+          }
+             if(a->right){
+              q.push(a->right);
+          }
+      }
+      return ans;
+    }
+};
