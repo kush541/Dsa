@@ -1,0 +1,64 @@
+potd gfg
+
+/*
+Structure of the node of the linked list is as
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+class Solution{
+  public:
+    // your task is to complete this function
+    int countPairs(struct Node* head1, struct Node* head2, int x) {
+    unordered_set<int>s;
+    while(head1!=NULL){
+        s.insert(head1->data);
+        head1=head1->next;
+    }
+    int ans = 0;
+    while(head2!=NULL){
+        int a = x- head2->data;
+        if(s.find(a)!=s.end()){
+            ans++;
+        }
+        head2 = head2->next;
+    }
+    
+    return ans;
+    }
+};
+
+
+Q@:potd leetcode
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+         vector<vector<int>> merged;
+        int i = 0;
+
+        while (i < intervals.size() && intervals[i][1] < newInterval[0]) {
+            merged.push_back(intervals[i]);
+            i++;
+        }
+
+        while (i < intervals.size() && intervals[i][0] <= newInterval[1]) {
+            newInterval = {min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])};
+            i++;
+        }
+        merged.push_back(newInterval);
+
+        while (i < intervals.size()) {
+            merged.push_back(intervals[i]);
+            i++;
+        }
+
+        return merged;
+    }
+};
