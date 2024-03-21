@@ -1,0 +1,246 @@
+Q1:potd leetcode
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* p=NULL;
+        ListNode* c = head;
+        
+        while(c){
+            ListNode* temp =c->next;
+            c->next = p;
+            p = c;
+            c=temp;
+        }
+        return p;
+    }
+};
+
+Q2:potd gfg
+class Solution{
+    public:
+    //Function to store the zig zag order traversal of tree in a list.
+    vector <int> zigZagTraversal(Node* root)
+    {
+         vector <int> res;
+    
+    //if root is null, we return the list.
+	if (!root)return res;
+	
+	//declaring two stacks to store the current and new level.
+	stack<struct Node*> currentlevel;
+	stack<struct Node*> nextlevel;
+	
+	//pushing the root in currentlevel stack.
+	currentlevel.push(root);
+	bool lefttoright = true;
+	
+	while (!currentlevel.empty())
+	{
+	    //storing the top element of currentlevel stack in temp and popping it.
+		Node* temp = currentlevel.top();
+		currentlevel.pop();
+		
+		//if temp is not null, we store the data at temp in list.
+		if (temp) 
+		{
+			res.push_back (temp->data);
+			
+			//if lefttoright is true then it stores nodes from left to right 
+			//else from right to left in nextlevel stack.
+			if (lefttoright)
+			{
+				if (temp->left)
+					nextlevel.push(temp->left);
+				if (temp->right)
+					nextlevel.push(temp->right);
+			}
+			else 
+			{
+				if (temp->right)
+					nextlevel.push(temp->right);
+				if (temp->left)
+					nextlevel.push(temp->left);
+			}
+		}
+		
+		//if currentlevel stack is empty lefttoright is flipped to change 
+		//the order of storing the nodes and both stacks are swapped.
+		if (currentlevel.empty()) 
+		{
+			lefttoright = !lefttoright;
+			swap(currentlevel, nextlevel);
+		}
+	}
+	//returning the list.
+	return res;
+    	// Code here
+    }
+};
+
+Q3:Transfiguration
+class Solution{
+    
+    public:
+    int transfigure (string A, string B)
+    {
+    
+    	// Your code goes here
+    	  int len1 = A.length();
+        int len2 = B.length();
+        int opCnt=0;
+        
+        //if length of string is not eq no use doing transfig.. 
+        if (len1 != len2) {
+            return -1; 
+        }
+        //no changes required if equal strings
+        if (A == B) {
+            return 0; 
+        }
+        
+        //array to store frequencies:exactly 256 so constant time hashmap O(n)
+        vector <int> fre(256,0);
+        
+        //if both have same number of chars the net frequencies should be 0
+        for(int i=0;i<len1;i++){
+            fre[A[i]]++;
+            fre[B[i]]--;
+        }
+        for(int i=0;i<256;i++){
+            if (fre[i]!=0)return -1;
+        }
+        
+        //iterating from behind of both strings as soon as chars are unequal that means there trans.. is applied
+        //do cntr++
+        int i=len1-1,j=len2-1;
+        while(i>=0){
+            if(A[i]==B[j]){
+                j--;
+            }
+            else{
+                opCnt++;
+            }
+            i--;
+        }
+    
+        return opCnt;
+    }
+};
+
+Q4:isomorphic strings 
+class Solution
+{
+    public:
+    //Function to check if two strings are isomorphic.
+    bool areIsomorphic(string str1, string str2)
+    {
+        
+        int n = str1.size();
+        int m = str2.size();
+        map<char,char>m1,m2;
+        if(n!=m) return false;
+         for(int i =0;i < n;i++){
+             if(m1.find(str1[i])==m1.end() and m2.find(str2[i])==m2.end()){
+                 m1[str1[i]] = str2[i];
+                 m2[str2[i]]   = str1[i];
+             }
+             else if(m1[str1[i]]!=str2[i]){
+                 return false;
+             }
+         }
+         return true;
+    }
+};
+
+Q5:recursively print all sentence
+#include <iostream>
+#include <string>
+
+#define R 3
+#define C 3
+using namespace std;
+
+
+void printUtil(string arr[R][C], int m, int n, string output[R])
+{
+	// Add current word to output array
+	output[m] = arr[m][n];
+
+
+	if (m==R-1)
+	{
+		for (int i=0; i<R; i++)
+		cout << output[i] << " ";
+		cout << endl;
+		return;
+	}
+
+	for (int i=0; i<C; i++)
+	if (arr[m+1][i] != "")
+		printUtil(arr, m+1, i, output);
+}
+
+void print(string arr[R][C])
+{
+string output[R];
+
+
+for (int i=0; i<C; i++)
+	if (arr[0][i] != "")
+		printUtil(arr, 0, i, output);
+}
+
+int main()
+{
+string arr[R][C] = {{"you", "we"},
+						{"have", "are"},
+						{"sleep", "eat", "drink"}};
+
+print(arr);
+
+return 0;
+}
+
+Q6:Function to find Number of customers who could not get a computer
+int runCustomerSimulation(int n, const char *seq) 
+{ 
+    
+    char seen[MAX_CHAR] = {0}; 
+ 
+   
+    int res = 0; 
+ 
+    int occupied = 0; // To keep track of occupied computers 
+ 
+    for (int i=0; seq[i]; i++) 
+    { 
+        int ind = seq[i] - 'A'; 
+ 
+        if (seen[ind] == 0) 
+        { 
+            seen[ind] = 1; 
+ 
+            if (occupied < n) 
+            { 
+                occupied++; 
+ 
+                seen[ind] = 2; 
+            } 
+ 
+         
+            else
+                res++; 
+        } 
+ 
+        else
+        { 
+       
+        if (seen[ind] == 2) 
+            occupied--; 
+        seen[ind] = 0; 
+        } 
+    } 
+    return res; 
+} 
+
+  
