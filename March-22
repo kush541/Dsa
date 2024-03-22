@@ -1,0 +1,211 @@
+Q1:potd leetcode
+class Solution {
+public:
+     ListNode* reverse(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        while (curr != nullptr) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+    
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* rev = reverse(slow);
+        while (rev != nullptr) {
+            if (head->val != rev->val) {
+                return false;
+            }
+            head = head->next;
+            rev = rev->next;
+        }
+        return true;
+    }
+};
+
+Q2:potd gfg
+class Solution
+{
+    public:
+    vector <int> diagonalSum(Node* root) {
+       vector<int>ans;
+       queue<Node*>q;
+       q.push(root);
+       while(!q.empty()){
+           int n = q.size();
+           for(int i =0; i < n;i++){
+               Node* a = q.front();
+               Node*c = a;
+               q.pop();
+               while(a->right){
+                   q.push(a->right);
+                   a = a->right;
+               }
+               q.push(c);
+           }
+           int m = q.size();
+           int sum = 0;
+           for(int i =0; i < m;i++){
+               Node* b= q.front();
+               sum = sum +b->data;
+               if(b->left){
+                   q.push(b->left);
+               }
+               q.pop();
+           }
+           ans.push_back(sum);
+       }
+       return ans;
+    }
+};
+
+
+Q3:find first and last occurence of a element in logn tc 
+class Solution
+{
+    public:
+    vector<int> find(int arr[], int n , int x )
+    {
+        int i =0;
+        int j =n;
+        int m = -1;
+        vector<int>ans;
+        while(i<j){
+            int mid = (i+j)/2;
+            if(arr[mid]==x){
+              m =mid;
+              break;
+            }
+            else if(arr[mid]>x){
+                j = mid-1;
+            }
+            else{
+                i = mid+1;
+            }
+           
+            
+        }
+        if(m==-1){
+            ans.push_back(-1);
+            ans.push_back(-1);
+            return ans;
+        }
+        int t = m;
+        // for lowest
+        while(arr[m]==arr[m-1]){
+            m--;
+        }
+        // ans.push_bacK(m);
+        ans.push_back(m);
+        while(arr[t] == arr[t+1]){
+            t++;
+        }
+        ans.push_back(t);
+    
+        return ans;
+    }
+};
+
+Q4:
+find missing and repeaing elements
+ vector<int> findTwoElement(vector<int> arr, int n) {
+        int a=-1 ;
+        for(int i =0; i <n;i++){
+           int t = abs(arr[i]);
+           if(arr[t-1]<0){
+               a =abs(arr[i]);
+           }
+           else{
+               arr[t-1] = -arr[t-1];
+           }
+        }
+        vector<int>ans;
+        ans.push_back(a);
+    for (int i = 0; i < n; i++) {
+            
+            if (arr[i] > 0) {
+                ans.push_back(i+1);
+            }
+        }
+        return ans;
+    }
+
+Q5:find majority element
+class Solution{
+  public:
+   
+    int majorityElement(int a[], int size)
+    {
+        
+       int at = a[0];
+       int calc = 0;
+       for(int i =0; i < size;i++){
+           if(a[i] == at){
+               calc++;
+           }
+           else{
+               calc--;
+           }
+           if(calc==0){
+               at =a[i];
+              calc=1;
+           }
+       }
+    //   1 3 3 3 2
+     int c = 0;
+     for(int i =0; i < size;i++){
+         if(a[i]==at) c++;
+     }
+        if(c>size/2) return at;
+        return -1;
+    }
+};
+
+Q6:find quadruple
+  if (a.size() < 4) return {};
+    vector<vector<int>> ans;
+    sort(a.begin(), a.end());
+    for (int i = 0; i < a.size() - 3; ++i) {
+        // current element is greater than k then no quadruplet can be found
+        if (a[i] > 0 && a[i] > k) break;
+        // removing duplicates
+        if (i > 0 && a[i] == a[i - 1]) continue;
+        for (int j = i + 1; j < a.size() - 2; ++j) {
+            // removing duplicates
+            if (j > i + 1 && a[j] == a[j - 1]) continue;
+
+            // taking two pointers
+            int left = j + 1;
+            int right = a.size() - 1;
+            while (left < right) {
+                int old_l = left;
+                int old_r = right;
+                // calculate current sum
+                int sum = a[i] + a[j] + a[left] + a[right];
+                if (sum == k) {
+                    // add to answer
+                    ans.push_back({a[i], a[j], a[left], a[right]});
+
+                    // removing duplicates
+                    while (left < right && a[left] == a[old_l]) left++;
+                    while (left < right && a[right] == a[old_r]) right--;
+                } else if (sum > k) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+    }
+    return ans;
+
+
