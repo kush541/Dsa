@@ -1,0 +1,168 @@
+Q2:potd leetcode
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        ListNode* sl = head;
+        ListNode* f = head;
+        while(f->next and f->next->next){
+            sl = sl->next;
+            f =f->next->next;
+        }
+        ListNode * prev = NULL;
+        ListNode* curr = sl->next;
+        sl->next = NULL;
+        while(curr){
+        ListNode* temp = curr->next;
+        curr->next=prev;
+        prev =curr;
+        curr=temp;
+        }
+        ListNode* s =head;
+        ListNode* e = prev;
+        while(s and e){
+            ListNode* sn = s->next;
+            ListNode* en = e->next;
+            s->next=e;
+            e->next= sn;
+            s=sn;
+            e = en;
+        }
+    }
+};
+
+
+Q3:stickler thief
+  int solve(int arr[],int n,vector<int>&mem){
+        if(n<0){
+            return 0;
+        }
+        if(mem[n]!=-1){
+            return mem[n];
+        }
+        int inc = arr[n]+solve(arr,n-2,mem);
+        int exc = solve(arr,n-1,mem);
+        return  mem[n]=max(inc,exc);
+    }
+    int FindMaxSum(int arr[], int n)
+    {
+        vector<int>mem(n,-1);
+        return solve(arr,n-1,mem);
+    }
+
+Q4:Count triplets with sum smaller than X
+	long long countTriplets(long long arr[], int n, long long sum)
+	{
+	    sort(arr,arr+n);
+	    long long ans = 0;
+	    for(int i =0;i <n-2;i++){
+	        long long s = sum-arr[i];
+	        int j =i+1;
+	        int k = n-1;
+	        while(j<k){
+	            if(arr[j]+arr[k]<s){
+	                ans = ans+(k-j);
+	                j++;
+	            }
+	            else if(arr[j]+arr[k]>=s){
+	                k--;
+	            }
+	        }
+	    }
+	    return ans;
+	}
+
+Q5:Zero Sum Subarrays
+ long long int findSubarray(vector<long long int> &arr, int n ) {
+   
+      long long int ans=0;
+      unordered_map<int,int>m;
+      m[0] =1;
+      int ps =0;
+      
+      for(int i =0; i < n;i++){
+      ps = ps+arr[i];
+      if(m.find(ps)!=m.end()){
+          ans = ans + m[ps];
+      }
+      m[ps]++;
+      }
+      
+      return ans;
+    }
+
+
+Q6:merge two arrays without extra space
+class Solution{
+    public:
+        //Function to merge the arrays.
+        int solve(int gap){
+            if(gap==1){
+                return 0;
+            }
+            return (gap / 2)+(gap%2) ;
+        }
+        void merge(long long arr1[], long long arr2[], int n, int m) 
+        { 
+            int gap = solve(n+m);
+            while(gap>0){
+                int i =0;
+                while(i+gap<n+m){
+                int s = i;
+                int e = i+gap;
+                // dono 1st m
+                if(s<n and e<n){
+                    if(arr1[s]>arr1[e]){
+                        // cout<<arr1[s]<<s<<" "<<arr1[e]<<e<<endl;
+                        swap(arr1[s],arr1[e]);
+                    }
+                //  i++;   
+                }
+                 // dono 2nd m
+                 else if(s>=n and e>=n and s<n+m and e<n+m){
+                     s = s-n;
+                     e =e-n;
+                     if(arr2[s]>arr2[e]){
+                        //  cout<<arr2[s]<<s<<" "<<arr2[e]<<e<<endl;
+                         swap(arr2[s],arr2[e]);
+                     }
+                    //  i++;
+                 }
+                  
+                  else if(s<n and e>=n and e<n+m){
+                      e = e-n;
+                      if(arr1[s]>arr2[e]){
+                        //   cout<<arr1[s]<<s<<" "<<arr2[e]<<e<<endl;
+                          swap(arr1[s],arr2[e]);
+                      }
+                    //   i++;
+                  }
+                  i++;
+            }
+               gap = solve(gap);
+            }
+            
+            
+        } 
+};
+
+
+Q7:product array puzzle
+   vector<long long int> productExceptSelf(vector<long long int>& nums, int n) {
+    vector<long long int> leftProduct(n, 1); 
+        vector<long long int> rightProduct(n, 1); 
+        vector<long long int> result(n); 
+
+        for (int i = 1; i < n; ++i) {
+            leftProduct[i] = leftProduct[i - 1] * nums[i - 1];
+        }
+
+        for (int i = n - 2; i >= 0; --i) {
+            rightProduct[i] = rightProduct[i + 1] * nums[i + 1];
+        }
+
+        for (int i = 0; i < n; ++i) {
+            result[i] = leftProduct[i] * rightProduct[i];
+        }
+
+        return result;
+    }
